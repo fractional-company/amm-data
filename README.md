@@ -1,5 +1,5 @@
-# AMM Subgraph Clients
-
+# AMM Subgraph Info
+A utility to query for vault data across amms.
 
 ### Supported AMMs
 - Uniswap V3

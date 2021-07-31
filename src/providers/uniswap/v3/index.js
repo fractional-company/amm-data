@@ -5,14 +5,13 @@ import {fetchTokenData, TokenData} from "./tokenData";
 import type {PoolData} from "./poolData";
 import type {VaultData} from "../../../interfaces";
 
-interface MultipleAnalyticsData {
+interface MultipleVaultData {
   [address: string]: VaultData
 }
 
-interface MultipleAnalyticsRequest {
+interface MultipleDataRequest {
   [address: string]: [string]
 }
-
 
 export class UniswapV3Client {
   constructor(chainId: number | undefined = 1) {
@@ -34,7 +33,7 @@ export class UniswapV3Client {
     return ([] || (token0Pools)).concat(([] || token1Pools))
   }
 
-  async getVaultAnalytics(contractAddress: string, pools: string[] = []): VaultData | null {
+  async getVaultData(contractAddress: string, pools: string[] = []): VaultData | null {
     if (!this.isChainSupported() || pools.length === 0) {
       return null
     }
@@ -69,7 +68,7 @@ export class UniswapV3Client {
     })
   }
 
-  async getMultipleVaultAnalytics(request: MultipleAnalyticsRequest): MultipleAnalyticsData | null {
+  async getMultipleVaultData(request: MultipleDataRequest): MultipleVaultData | null {
 
     const vaultAddresses = Object.keys(request)
     if (!this.isChainSupported()) {
