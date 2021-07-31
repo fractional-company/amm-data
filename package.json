@@ -1,7 +1,7 @@
 {
   "name": "amm-info",
   "version": "0.0.4",
-  "description": "AMM subgraph clients",
+  "description": "A utility to query vault data across amms",
   "license": "MIT",
   "repository": "fractional-company/amm-info",
   "main": "dist/index.js",

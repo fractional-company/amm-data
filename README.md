@@ -1,5 +1,5 @@
-# AMM Subgraph Info
-A utility to query for vault data across amms.
+# Fractional AMM utility
+A utility to query vault data across amms.
 
 ### Supported AMMs
 - Uniswap V3
