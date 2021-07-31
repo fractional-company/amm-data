@@ -1,6 +1,6 @@
 {
   "name": "amm-info",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "AMM subgraph clients",
   "license": "MIT",
   "repository": "fractional-company/amm-info",
