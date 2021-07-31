@@ -5,6 +5,7 @@
   "license": "MIT",
   "repository": "fractional-company/amm-info",
   "main": "dist/index.js",
+  "type": "module",
   "author": {
     "name": "CryptoSamurai",
     "url": "https://fractional.art/"

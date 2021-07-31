@@ -1,5 +1,5 @@
 import {GraphQLClient} from 'graphql-request'
-import {ETHEREUM_BLOCKS} from "../../constants";
+import {ETHEREUM_BLOCKS} from "./../../constants";
 
 export const resolveClient = () => {
   // activeChainId

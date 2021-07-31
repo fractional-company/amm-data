@@ -1,6 +1,6 @@
-import {TOKEN_0} from "../../../constants";
+import {TOKEN_0} from "./../../../constants";
 import {GraphQLClient} from "graphql-request";
-import {formatTokenName, formatTokenSymbol} from "../../../../dist/utils/tokens";
+import {formatTokenName, formatTokenSymbol} from "./../../../../dist/utils/tokens";
 
 type Token = {
     id: string,

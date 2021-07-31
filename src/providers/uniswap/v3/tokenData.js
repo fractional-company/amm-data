@@ -1,4 +1,4 @@
-import {formatTokenName, formatTokenSymbol} from "../../../utils/tokens";
+import {formatTokenName, formatTokenSymbol} from "./../../../utils/tokens";
 import {GraphQLClient} from "graphql-request";
 
 const TOKENS_QUERY = (
