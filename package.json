@@ -1,6 +1,6 @@
 {
   "name": "amm-info",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A utility to query vault data across amms",
   "license": "MIT",
   "repository": "fractional-company/amm-info",
