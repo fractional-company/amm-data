@@ -1,9 +1,9 @@
 {
-  "name": "amm-info",
+  "name": "@fractional-company/amm-data",
   "version": "0.0.5",
   "description": "A utility to query vault data across amms",
   "license": "MIT",
-  "repository": "fractional-company/amm-info",
+  "repository": "fractional-company/amm-data",
   "main": "dist/index.js",
   "author": {
     "name": "CryptoSamurai",

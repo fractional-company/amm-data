@@ -13,6 +13,26 @@ interface MultipleDataRequest {
   [address: string]: [string]
 }
 
+const poolDataReducer = function (contractAddress) {
+
+  return function (carry, poolData: PoolData): VaultData {
+    if (!carry.token0) {
+      carry.token0 = poolData.token0
+      carry.token1 = poolData.token1
+      carry.token0Price = poolData.token0Price
+      carry.token1Price = poolData.token1Price
+    }
+    carry.totalTokensLocked += carry.token1.address.toLowerCase() === contractAddress.toLowerCase()
+      ? poolData.totalValueLockedToken1
+      : poolData.totalValueLockedToken0
+    carry.volumeUSD += poolData.volumeUSD
+    carry.txCount += poolData.txCount
+    carry.totalValueLockedUSD += poolData.totalValueLockedUSD
+
+    return carry
+  }
+}
+
 export class UniswapV3Client {
   constructor(chainId: number | undefined = 1) {
     this.chainId = parseInt(chainId)
@@ -44,19 +64,7 @@ export class UniswapV3Client {
       return null
     }
 
-    return poolsData.reduce((carry, poolData: PoolData): VaultData => {
-      if (!carry.token0) {
-        carry.token0 = poolData.token0
-        carry.token1 = poolData.token1
-        carry.token0Price = poolData.token0Price
-        carry.token1Price = poolData.token1Price
-      }
-      carry.volumeUSD += poolData.volumeUSD
-      carry.txCount += poolData.txCount
-      carry.totalValueLockedUSD += poolData.totalValueLockedUSD
-
-      return carry
-    }, {
+    return poolsData.reduce(poolDataReducer(contractAddress), {
       address: contractAddress,
       token0: null,
       token1: null,
@@ -64,6 +72,7 @@ export class UniswapV3Client {
       token1Price: 0,
       volumeUSD: 0,
       txCount: 0,
+      totalTokensLocked: 0,
       totalValueLockedUSD: 0,
     })
   }
@@ -85,27 +94,7 @@ export class UniswapV3Client {
       const poolAddresses = request[vaultAddress]
       c[vaultAddress] = poolAddresses
         .map(address => poolsData.find(p => p.address === address))
-        .reduce((carry, poolData: PoolData): VaultData => {
-          if (!carry.token0) {
-            carry.token0 = poolData.token0
-            carry.token1 = poolData.token1
-            carry.token0Price = poolData.token0Price
-            carry.token1Price = poolData.token1Price
-          }
-          carry.volumeUSD += poolData.volumeUSD
-          carry.txCount += poolData.txCount
-          carry.totalValueLockedUSD += poolData.totalValueLockedUSD
-          return carry
-        }, {
-          address: vaultAddress,
-          token0: null,
-          token1: null,
-          token0Price: 0,
-          token1Price: 0,
-          volumeUSD: 0,
-          txCount: 0,
-          totalValueLockedUSD: 0,
-        })
+        .reduce(poolDataReducer(vaultAddress))
 
       return c
     }, {})
