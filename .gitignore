@@ -15,7 +15,7 @@ node_modules
 /node_modules
 /.pnp
 .pnp.js
-
+src/AMMtesting.js
 graphData.json
 
 # testing

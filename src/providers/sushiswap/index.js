@@ -1,7 +1,7 @@
 import {TOKEN_1, ENDPOINTS} from "./constants";
 import {fetchPoolsData, fetchTokenPools} from "./poolData";
 import {fetchTokenData} from "./tokenData";
-import type {PoolData, VaultData, TokenData} from "../../../interfaces";
+import type {PoolData, VaultData, TokenData} from "./../../interfaces";
 import {GraphQLClient} from "graphql-request";
 
 interface MultipleVaultData {
@@ -13,6 +13,7 @@ interface MultipleDataRequest {
 }
 
 const poolDataReducer = function (contractAddress) {
+
   return function (carry, poolData: PoolData): VaultData {
     if (!carry.token0) {
       carry.token0 = poolData.token0
@@ -20,7 +21,7 @@ const poolDataReducer = function (contractAddress) {
       carry.token0Price = poolData.token0Price
       carry.token1Price = poolData.token1Price
     }
-    carry.totalTokensLocked += carry.token1.address.toLowerCase() === contractAddress.toLowerCase()
+    carry.totalValueLocked += carry.token1.address.toLowerCase() === contractAddress.toLowerCase()
       ? poolData.totalValueLockedToken1
       : poolData.totalValueLockedToken0
     carry.volumeUSD += poolData.volumeUSD
@@ -30,7 +31,7 @@ const poolDataReducer = function (contractAddress) {
   }
 }
 
-export class UniswapV3Client {
+export class SushiswapClient {
   constructor(chainId: number | undefined = 1) {
     chainId = parseInt(chainId)
     this.chainId = chainId
@@ -73,7 +74,7 @@ export class UniswapV3Client {
       token1Price: 0,
       volumeUSD: 0,
       txCount: 0,
-      totalTokensLocked: 0,
+      totalValueLocked: 0,
     })
   }
 
@@ -97,4 +98,3 @@ export class UniswapV3Client {
     }, {})
   }
 }
-
