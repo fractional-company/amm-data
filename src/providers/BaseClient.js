@@ -12,7 +12,7 @@ export class BaseClient {
     return []
   }
 
-  async getPoolsAnalytics(contractAddress: string, pools: string[] = []): PoolAnalytics[] | null {
+  async getTokenPoolsWithWeight(contractAddress: string, pools: string[] = []): PoolAnalytics[] | null {
     if (pools.length === 0) {
       return null
     }
@@ -31,7 +31,7 @@ export class BaseClient {
     })
   }
 
-  async getBulkPoolsAnalytics(request: BulkAnalyticsRequest): BulkPoolsAnalytics | null {
+  async getTokensPoolsWithWeight(request: BulkAnalyticsRequest): BulkPoolsAnalytics | null {
     const vaultAddresses = Object.keys(request)
     const pools = vaultAddresses.flatMap(vaultAddress => request[vaultAddress]).map(p => p.toLowerCase())
     const poolsData: PoolData[] | [] = await this.fetchPoolsData(pools)
