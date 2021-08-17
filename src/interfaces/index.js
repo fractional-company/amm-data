@@ -1,6 +1,6 @@
 
 
-export interface VaultData {
+export interface PoolAnalytics {
   address: string,
   token0: TokenData,
   token1: TokenData,
@@ -8,7 +8,9 @@ export interface VaultData {
   token1Price: number,
   volumeUSD: number,
   txCount: number,
-  totalValueLocked: number,
+  totalValueLockedToken0: number,
+  totalValueLockedToken1: number,
+  weight: number,
 }
 
 export interface TokenData {
@@ -33,6 +35,10 @@ export interface PoolData {
   totalValueLockedToken1: number,
 }
 
-interface MultipleVaultData {
-  [address: string]: VaultData
+export interface BulkPoolsAnalytics {
+  [address: string]: PoolAnalytics[]
+}
+
+export interface BulkAnalyticsRequest {
+  [address: string]: [string]
 }

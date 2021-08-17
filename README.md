@@ -3,6 +3,7 @@ A utility to query vault data across amms.
 
 ### Supported AMMs
 - Uniswap V3
+- Sushiswap
 
 ## Features
 

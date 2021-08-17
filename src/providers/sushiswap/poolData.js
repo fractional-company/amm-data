@@ -28,6 +28,7 @@ const mapPool = function (pool): PoolData {
     volumeUSD: parseFloat(pool.volumeUSD),
     token0Price: parseFloat(pool.token0Price),
     token1Price: parseFloat(pool.token1Price),
+    totalTokensLocked: 0,
     totalValueLockedToken0: parseFloat(pool.reserve0),
     totalValueLockedToken1: parseFloat(pool.reserve1),
   }
@@ -59,7 +60,6 @@ export const fetchPoolsData = async (client: GraphQLClient,
     return []
   }
 }
-
 
 /**
  * Fetch token pools

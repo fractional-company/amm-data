@@ -23,6 +23,8 @@
     "flow": "flow check",
     "docs": "documentation build src/providers/uniswap/v3/index.js -f md -o docs/README.md && documentation build src/** -f html -o docs",
     "postdocs": "git add README.md",
+    "watch": "nodemon --exec npm run restart",
+    "restart": "rimraf dist && npm run build",
     "clean": "rimraf dist",
     "flowbuild": "flow-copy-source src dist",
     "prebuild": "npm run docs && npm run clean && npm run flowbuild",

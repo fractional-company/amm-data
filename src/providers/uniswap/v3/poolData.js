@@ -66,7 +66,7 @@ const mapPool = function (pool): PoolData {
     token0Price: parseFloat(pool.token0Price),
     token1Price: parseFloat(pool.token1Price),
     totalValueLockedToken0: parseFloat(pool.totalValueLockedToken0),
-    totalValueLockedToken1: parseFloat(pool.totalValueLockedToken1),
+    totalValueLockedToken1: parseFloat(pool.totalValueLockedToken1)
   }
 }
 
