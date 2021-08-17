@@ -19,7 +19,7 @@ export class SushiswapClient extends BaseClient {
     return fetchTokenData(this.client, contractAddress.toLowerCase())
   }
 
-  async getTokensPools(contractAddress: string) {
+  async getTokenPools(contractAddress: string) {
     let token0Pools = await fetchTokenPools(this.client, contractAddress.toLowerCase())
     let token1Pools = await fetchTokenPools(this.client, contractAddress.toLowerCase(), TOKEN_1)
 
