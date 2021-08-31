@@ -1,5 +1,3 @@
-
-
 export interface PoolAnalytics {
   address: string,
   token0: TokenData,
@@ -15,12 +13,15 @@ export interface PoolAnalytics {
 
 export interface TokenData {
   address: string,
-  symbol: string,
-  name: string,
   derivedETH: number,
-  volume: number,
-  txCount: number,
+  name: string,
+  symbol: string,
+  totalSupply: number,
   totalValueLocked: number,
+  txCount: number,
+  untrackedVolumeUSD: number,
+  volume: number,
+  volumeUSD: number,
 }
 
 export interface PoolData {
@@ -30,9 +31,19 @@ export interface PoolData {
   token0Price: number,
   token1Price: number,
   volumeUSD: number,
+  feesUSD: number,
   txCount: number,
   totalValueLockedToken0: number,
   totalValueLockedToken1: number,
+}
+
+
+export interface PoolDayData {
+  date: string,
+  address: string,
+  volumeUSD: number,
+  tvlUSD: number,
+  txCount: number,
 }
 
 export interface BulkPoolsAnalytics {

@@ -55,6 +55,7 @@
     "npm"
   ],
   "dependencies": {
+    "date-fns": "2.23.0",
     "graphql": "15.5.1",
     "graphql-request": "3.5.0"
   },
@@ -62,6 +63,8 @@
     "@babel/cli": "7.6.2",
     "@babel/core": "7.6.2",
     "@babel/plugin-proposal-class-properties": "7.5.5",
+    "@babel/plugin-proposal-optional-chaining": "7.14.5",
+    "@babel/plugin-transform-runtime": "7.15.0",
     "@babel/preset-env": "7.6.2",
     "@babel/preset-flow": "7.0.0",
     "babel-eslint": "10.0.3",

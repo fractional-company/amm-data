@@ -1,7 +1,14 @@
 import {TOKEN_0} from "./../../../constants";
 import {GraphQLClient} from "graphql-request";
-import {findPoolsByToken0Query, findPoolsByToken1Query, poolsQuery} from "./queries";
-import type {PoolData} from "../../../interfaces";
+import {
+  findPoolsByToken0Query,
+  findPoolsByToken1Query,
+  poolDayDatas,
+  poolDayDatasQuery,
+  poolsQuery,
+  poolTimeTravelQuery
+} from "./queries";
+import type {PoolData, PoolDayData} from "../../../interfaces";
 import {mapToken} from "./tokenData";
 
 export type Token = {
@@ -63,6 +70,7 @@ const mapPool = function (pool): PoolData {
     },
     txCount: parseFloat(pool.txCount),
     volumeUSD: parseFloat(pool.volumeUSD),
+    feesUSD: parseFloat(pool.feesUSD),
     token0Price: parseFloat(pool.token0Price),
     token1Price: parseFloat(pool.token1Price),
     totalValueLockedToken0: parseFloat(pool.totalValueLockedToken0),
@@ -70,22 +78,32 @@ const mapPool = function (pool): PoolData {
   }
 }
 
+const mapPoolDayData = function (poolDayData): PoolDayData {
+  return {
+    address: poolDayData?.pool?.id,
+    date: poolDayData.date,
+    tvlUSD: parseFloat(poolDayData.tvlUSD),
+    txCount: parseFloat(poolDayData.txCount),
+    volumeUSD: parseFloat(poolDayData.volumeUSD),
+  }
+}
+
 /**
  *
  * @param client
- * @param poolArr
+ * @param poolsArr
  * @param orderBy
  * @param orderDirection
  * @returns {Promise<void>}
  */
 export const fetchPoolsData = async (client: GraphQLClient,
-                                     poolArr: any = [],
+                                     poolsArr: any = [],
                                      orderBy: string | undefined = 'totalValueLockedUSD',
                                      orderDirection: string | undefined = 'desc'): PoolData[] | [] => {
 
   try {
     const {pools} = await client.request(poolsQuery, {
-      pools: poolArr,
+      pools: poolsArr,
       orderBy,
       orderDirection
     });
@@ -93,5 +111,63 @@ export const fetchPoolsData = async (client: GraphQLClient,
   } catch (e) {
     console.error(e)
     return []
+  }
+}
+
+/**
+ *
+ * @param client
+ * @param poolsArr
+ * @param blockNumber
+ * @param orderBy
+ * @param orderDirection
+ * @returns {Promise<*[]|PoolData[]>}
+ */
+export const fetchPoolsPastData = async (client: GraphQLClient,
+                                         poolsArr: string[] = [],
+                                         blockNumber: number | undefined,
+                                         orderBy: string | undefined = 'totalValueLockedUSD',
+                                         orderDirection: string | undefined = 'desc'): PoolDayData[] => {
+  try {
+    const {pools} = await client.request(poolTimeTravelQuery, {
+      pools: poolsArr,
+      block: {
+        number: blockNumber
+      },
+      orderBy,
+      orderDirection
+    });
+    return pools.map((pool: PoolFields) => mapPool(pool))
+  } catch (e) {
+    console.error(e)
+    return null
+  }
+}
+
+
+/**
+ *
+ * @param client
+ * @param poolsArr
+ * @param startTime
+ * @param skip
+ * @returns {Promise<null|*>}
+ */
+export const fetchPoolsDayData = async (client: GraphQLClient,
+                                        poolsArr: string[] = [],
+                                        startTime: number,
+                                        skip: number = 0,
+) => {
+  try {
+    const {poolDayDatas} = await client.request(poolDayDatasQuery, {
+      pools: poolsArr,
+      startTime: startTime,
+      skip: skip,
+    });
+
+    return poolDayDatas.map((poolDayData) => mapPoolDayData(poolDayData))
+  } catch (e) {
+    console.error(e)
+    return null
   }
 }

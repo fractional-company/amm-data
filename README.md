@@ -1,3 +1,8 @@
+# WARNING
+This utility is under heavy dev. Still trying to find an optimal way to merge multiple subgraph data into one unified API. 
+### !! DO NOT USE IT !!
+
+
 # Fractional AMM utility
 A utility to query vault data across amms.
 

@@ -1,7 +1,12 @@
 import {GraphQLClient} from "graphql-request";
-import {pairsQuery, poolsByToken0Query, poolsByToken1Query} from "./queries";
+import {
+  pairDayDatasQuery,
+  pairsQuery,
+  poolsByToken0Query,
+  poolsByToken1Query,
+} from "./queries";
 import {TOKEN_0} from "../../constants";
-import type {PoolData} from "../../interfaces";
+import type {PoolData, PoolDayData} from "../../interfaces";
 import {mapToken} from "./tokenData";
 
 export type Token = {
@@ -28,7 +33,6 @@ const mapPool = function (pool): PoolData {
     volumeUSD: parseFloat(pool.volumeUSD),
     token0Price: parseFloat(pool.token0Price),
     token1Price: parseFloat(pool.token1Price),
-    totalTokensLocked: 0,
     totalValueLockedToken0: parseFloat(pool.reserve0),
     totalValueLockedToken1: parseFloat(pool.reserve1),
   }
@@ -76,6 +80,34 @@ export const fetchTokenPools = async (client: GraphQLClient,
     const {pairs} = await client.request(tokenSide === TOKEN_0 ? poolsByToken0Query : poolsByToken1Query,
       {tokenAddress});
     return (pairs || []).map((pool) => mapPool(pool))
+  } catch (e) {
+    console.error(e)
+    return null
+  }
+}
+
+const mapPoolDayData = function (poolDayData): PoolDayData {
+  return {
+    address: poolDayData?.pair.id,
+    date: poolDayData.date,
+    tvlUSD: parseFloat(poolDayData.reserveUSD),
+    txCount: parseFloat(poolDayData.txCount),
+    volumeUSD: parseFloat(poolDayData.volumeUSD),
+  }
+}
+
+export const fetchPoolsDayData = async (client: GraphQLClient,
+                                        poolsArr: string,
+                                        startTime: number): PoolDayData[] | [] => {
+
+  try {
+    const {pairDayDatas} = await client.request(pairDayDatasQuery,
+      {
+        pairs: poolsArr,
+        date: startTime,
+      });
+
+    return pairDayDatas.map(p => mapPoolDayData(p))
   } catch (e) {
     console.error(e)
     return null

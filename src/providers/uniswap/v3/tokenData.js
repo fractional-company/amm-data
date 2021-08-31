@@ -1,43 +1,19 @@
 import {formatTokenName, formatTokenSymbol} from "./../../../utils/tokens";
 import {GraphQLClient} from "graphql-request";
 import type {TokenData} from "../../../interfaces";
-
-const TOKENS_QUERY = (
-  block: null | number = null,
-  tokens: string[] = [],
-  orderBy: string | undefined = 'totalValueLockedUSD',
-  orderDirection: string | undefined = 'desc') => {
-
-  let tokenString = `[`
-  tokens.map((address: string) => {
-    return (tokenString += `"${address}",`)
-  })
-  tokenString += ']'
-  return `{
-      tokens(where: {id_in: ${tokenString}},` +
-    (block ? `block: {number: ${block}} ,` : ``) +
-    ` orderBy: ${orderBy}, orderDirection: ${orderDirection}) {
-        id
-        symbol
-        name
-        derivedETH
-        totalSupply
-        volume
-        txCount
-        totalValueLocked
-      }
-    }`
-}
+import {tokenPastQuery, tokenQuery, tokensQuery} from "./queries";
 
 interface TokenFields {
   id: string,
   symbol: string,
+  decimals: string,
   name: string,
   derivedETH: string,
-  volumeUSD: string,
   volume: string,
+  volumeUSD: string,
   feesUSD: string,
   txCount: string,
+  untrackedVolumeUSD: string,
   totalValueLocked: string,
   totalValueLockedUSD: string,
 }
@@ -46,12 +22,16 @@ interface TokenFields {
 export const mapToken = function (token: TokenFields): TokenData {
   return {
     address: token.id,
+    derivedETH: parseFloat(token.derivedETH),
+    feesUSD: parseFloat(token.feesUSD),
     name: formatTokenName(token.id, token.name),  // 'Art Blocks Curated Full Set',
     symbol: formatTokenSymbol(token.id, token.symbol),  // 'ABC123',
-    volume: parseFloat(token.volume),  // '13514.487363679039296109',
     txCount: parseFloat(token.txCount),  // '448',
-    derivedETH: parseFloat(token.derivedETH),
     totalValueLocked: parseFloat(token.totalValueLocked),  // '2030.560502437830764385',
+    totalValueLockedUSD: parseFloat(token.totalValueLockedUSD),
+    untrackedVolumeUSD: parseFloat(token.untrackedVolumeUSD),
+    volume: parseFloat(token.volume),  // '13514.487363679039296109',
+    volumeUSD: parseFloat(token.volumeUSD),  // '13514.487363679039296109',
   }
 }
 
@@ -59,33 +39,25 @@ export const mapToken = function (token: TokenFields): TokenData {
  *
  * @param client
  * @param tokenAddress
- * @param block
- * @param orderBy
- * @param orderDirection
+ * @param blockNumber
  * @returns {Promise<TokenData|null>}
  */
 export const fetchTokenData = async (client: GraphQLClient,
                                      tokenAddress: string,
-                                     block: number | null = null,
-                                     orderBy: string | undefined = 'totalValueLockedUSD',
-                                     orderDirection: string | undefined = 'desc'): TokenData | null => {
+                                     blockNumber: number | null = null): TokenData | null => {
 
-  const query = TOKENS_QUERY(block = null,
-    [tokenAddress],
-    orderBy,
-    orderDirection)
   try {
-    const {tokens} = await client.request(query);
-    if (tokens.length === 0) {
-      return null
-    }
-    const token = tokens[0]
+    const {token} = await client.request(blockNumber ? tokenPastQuery : tokenQuery, {
+      id: tokenAddress,
+      block: blockNumber
+    });
     return mapToken(token)
   } catch (e) {
     console.error(e)
     return null
   }
 }
+
 
 /**
  *
@@ -98,17 +70,16 @@ export const fetchTokenData = async (client: GraphQLClient,
  */
 export const fetchTokensData = async (client: GraphQLClient,
                                       tokens: string[] = [],
-                                      block: null | number | undefined = null,
+                                      blockNumber: null | number | undefined = null,
                                       orderBy: string | undefined = 'totalValueLockedUSD',
                                       orderDirection: string | undefined = 'desc'): TokenData[] | any[] => {
-
-  const query = TOKENS_QUERY(block = null,
-    tokens,
-    orderBy,
-    orderDirection)
-
   try {
-    const {tokens} = await client.request(query);
+    const {tokens} = await client.request(tokensQuery, {
+      ids: tokens,
+      block: blockNumber,
+      orderBy,
+      orderDirection
+    });
     if (tokens.length === 0) {
       return []
     }

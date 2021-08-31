@@ -1,14 +1,40 @@
 import {gql} from "graphql-request";
 
+/**
+ * ======================================
+ * Fragments
+ * ======================================
+ */
+
 export const pairTokenFieldsQuery = gql`
   fragment pairTokenFields on Token {
     id
     symbol
     name
-    derivedETH
+    decimals
+    totalSupply
     volume
+    volumeUSD
+    untrackedVolumeUSD
     txCount
     liquidity
+    derivedETH
+  }
+`;
+
+export const tokenFieldsQuery = gql`
+  fragment tokenFields on Token {
+    id
+    symbol
+    name
+    decimals
+    totalSupply
+    volume
+    volumeUSD
+    untrackedVolumeUSD
+    txCount
+    liquidity
+    derivedETH
   }
 `;
 
@@ -36,6 +62,20 @@ export const pairFieldsQuery = gql`
   }
   ${pairTokenFieldsQuery}
 `;
+
+
+export const bundleFields = gql`
+  fragment bundleFields on Bundle {
+    id
+    ethPrice
+  }
+`;
+
+/**
+ * ======================================
+ * Queries
+ * ======================================
+ */
 
 export const tokensQuery = gql`
   query tokensQuery(
@@ -84,3 +124,62 @@ export const poolsByToken1Query = gql`
     }
   }
 ${pairFieldsQuery}`
+
+export const tokenTimeTravelQuery = gql`
+  query tokenTimeTravelQuery($id: String!, $block: Block_height!) {
+    token(id: $id, block: $block) {
+      ...tokenFields
+    }
+  }
+  ${tokenFieldsQuery}
+`;
+
+export const tokenQuery = gql`
+  query tokenTimeTravelQuery($id: String!) {
+    token(id: $id) {
+      ...tokenFields
+    }
+  }
+${tokenFieldsQuery}
+`;
+
+export const pairDayDatasQuery = gql`
+  query pairDayDatasQuery(
+    $first: Int = 1000
+    $date: Int = 0
+    $pairs: [Bytes]!
+  ) {
+    pairDayDatas(
+      first: $first
+      orderBy: date
+      orderDirection: desc
+      where: { pair_in: $pairs, date_gt: $date }
+    ) {
+      date
+      pair {
+        id
+      }
+      reserveUSD
+      volumeUSD
+      txCount
+    }
+  }
+`;
+
+export const ethPriceQuery = gql`
+  query ethPriceQuery($id: Int! = 1) {
+    bundles(id: $id) {
+      ...bundleFields
+    }
+  }
+  ${bundleFields}
+`;
+
+export const ethPriceTimeTravelQuery = gql`
+  query ethPriceTimeTravelQuery($id: Int! = 1, $block: Block_height!) {
+    bundles(id: $id, block: $block) {
+      ...bundleFields
+    }
+  }
+  ${bundleFields}
+`;

@@ -1,7 +1,7 @@
 import {formatTokenName, formatTokenSymbol} from "./../../utils/tokens";
 import {GraphQLClient} from "graphql-request";
 import type {TokenData} from "./../../interfaces";
-import {tokensQuery} from "./queries";
+import {tokenQuery, tokenTimeTravelQuery} from "./queries";
 
 interface TokenFields {
   id: string,
@@ -10,45 +10,41 @@ interface TokenFields {
   derivedETH: string,
   totalSupply: string,
   volume: string,
+  volumeUSD: string,
   feesUSD: string,
   txCount: string,
   liquidity: string,
+  untrackedVolumeUSD: string
 }
 
 export const mapToken = function (token: TokenFields): TokenData {
   return {
     address: token.id,
+    derivedETH: parseFloat(token.derivedETH),
     name: formatTokenName(token.id, token.name),  // 'Art Blocks Curated Full Set',
     symbol: formatTokenSymbol(token.id, token.symbol),  // 'ABC123',
-    volume: parseFloat(token.volume),  // '13514.487363679039296109',
-    txCount: parseFloat(token.txCount),  // '448',
-    derivedETH: parseFloat(token.derivedETH),
+    totalSupply: parseFloat(token.totalSupply),
     totalValueLocked: parseFloat(token.liquidity),  // '2030.560502437830764385',
+    txCount: parseFloat(token.txCount),  // '448',
+    untrackedVolumeUSD: parseFloat(token.untrackedVolumeUSD),
+    volume: parseFloat(token.volume),  // '13514.487363679039296109',
+    volumeUSD: parseFloat(token.volumeUSD),
   }
 }
+
 
 /**
  *
  * @param client
  * @param tokenAddress
- * @param orderBy
- * @param orderDirection
  * @returns {Promise<TokenData|null>}
  */
 export const fetchTokenData = async (client: GraphQLClient,
-                                     tokenAddress: string,
-                                     orderBy: string | undefined = 'liquidity',
-                                     orderDirection: string | undefined = 'desc'): TokenData | null => {
+                                     tokenAddress: string): TokenData | null => {
   try {
-    const {tokens} = await client.request(tokensQuery, {
-      ids: [tokenAddress],
-      orderBy,
-      orderDirection
+    const {token} = await client.request(tokenQuery, {
+      id: tokenAddress
     });
-    if (tokens.length === 0) {
-      return null
-    }
-    const token = tokens[0]
     return mapToken(token)
   } catch (e) {
     console.error(e)
@@ -59,31 +55,24 @@ export const fetchTokenData = async (client: GraphQLClient,
 /**
  *
  * @param client
- * @param tokens
- * @param block
- * @param orderBy
- * @param orderDirection
- * @returns {Promise<*[]|*>}
+ * @param tokenAddress
+ * @param blockNumber
+ * @returns {Promise<*[]|PoolData[]>}
  */
-export const fetchTokensData = async (client: GraphQLClient,
-                                      tokens: string[] = [],
-                                      block: null | number | undefined = null,
-                                      orderBy: string | undefined = 'totalValueLockedUSD',
-                                      orderDirection: string | undefined = 'desc'): TokenData[] | any[] => {
-
-  const query = TOKENS_QUERY(block = null,
-    tokens,
-    orderBy,
-    orderDirection)
-
+export const fetchPastTokenData = async (client: GraphQLClient,
+                                         tokenAddress: string,
+                                         blockNumber: number | undefined) => {
   try {
-    const {tokens} = await client.request(query);
-    if (tokens.length === 0) {
-      return []
-    }
-    return tokens.map(token => mapToken(token))
+    const {token} = await client.request(tokenTimeTravelQuery, {
+      id: tokenAddress,
+      block: {
+        number: blockNumber
+      },
+    });
+    return mapToken(token)
   } catch (e) {
     console.error(e)
-    return []
+    return null
   }
 }
+

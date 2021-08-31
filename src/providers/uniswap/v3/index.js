@@ -1,10 +1,10 @@
 import {TOKEN_1, ENDPOINTS} from "./constants";
-import {fetchPoolsData, fetchTokenPools} from "./poolData";
+import {fetchPoolsData, fetchPoolsDayData, fetchPoolsPastData, fetchTokenPools} from "./poolData";
 import {fetchTokenData} from "./tokenData";
 import type {PoolData, TokenData} from "../../../interfaces";
-import {BaseClient} from "../../BaseClient";
+import {BaseAMMClient} from "../../BaseAMMClient";
 
-export class UniswapV3Client extends BaseClient {
+export class UniswapV3Client extends BaseAMMClient {
   constructor(chainId: number | undefined = 1) {
     super(parseInt(chainId), ENDPOINTS[chainId]
       ? ENDPOINTS[chainId]
@@ -26,8 +26,17 @@ export class UniswapV3Client extends BaseClient {
     return (token0Pools || []).concat(token1Pools || [])
   }
 
-  fetchPoolsData(pools: string[] = []): PoolData[] | [] {
-    return fetchPoolsData(this.client, pools)
+  getPoolsData(pools: string[] = []): PoolData[] | [] {
+    return fetchPoolsData(this.client, pools.map(p => p.toLowerCase()))
+  }
+
+  async getPoolsPastData(pools: Array, blockNumber: number) {
+    return fetchPoolsPastData(this.client, pools.map(p => p.toLowerCase()), blockNumber)
+  }
+
+  // @todo implement skip
+  async getPoolsDayDatas(pools: Array, startTime: number) {
+    return fetchPoolsDayData(this.client, pools.map(p => p.toLowerCase()), startTime)
   }
 }
 

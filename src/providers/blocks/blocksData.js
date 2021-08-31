@@ -1,20 +1,39 @@
-import {resolveClient} from "./client";
+import {startOfMinute, subDays, subWeeks} from "date-fns";
+import {blockQuery} from "./queries";
 
-export const GET_BLOCKS = (timestamps) => {
-  let queryString = 'query blocks {'
-  queryString += timestamps.map((timestamp) => {
-    return `t${timestamp}:blocks(first: 1, orderBy: timestamp, orderDirection: desc, where: { timestamp_gt: ${timestamp}, timestamp_lt: ${
-      timestamp + 600
-    } }) {
-        number
-      }`
-  })
-  queryString += '}'
-  return queryString
+export const fetchOneDayBlock = async (client) => {
+  const date = startOfMinute(subDays(Date.now(), 1));
+  const start = Math.floor(date / 1000);
+  const end = Math.floor(date / 1000) + 600;
+  const response = await client.request(blockQuery, {
+    start,
+    end,
+  });
+  return {number: Number(response?.blocks[0].number)};
 }
 
-const fetchBlocksFromTimestamps = (timestamps = []) => {
-  const query = GET_BLOCKS(timestamps)
-  const client = resolveClient()
-  return client.request(query)
+export const fetchTwoDayBlock = async (client) => {
+  const date = startOfMinute(subDays(Date.now(), 2));
+  const start = Math.floor(date / 1000);
+  const end = Math.floor(date / 1000) + 600;
+
+  const response = await client.request(blockQuery, {
+    start,
+    end,
+  });
+
+  return {number: Number(response?.blocks[0].number)};
+}
+
+export const fetchSevenDayBlock = async (client) => {
+  const date = startOfMinute(subWeeks(Date.now(), 1));
+  const start = Math.floor(date / 1000);
+  const end = Math.floor(date / 1000) + 600;
+
+  const response = await client.request(blockQuery, {
+    start,
+    end,
+  });
+
+  return {number: Number(response?.blocks[0].number)};
 }

@@ -1,31 +1,23 @@
 import {gql} from "graphql-request";
-//
-// const CHART_POOL_DAY = (poolAddress, startTime, skip = 0, orderBy = 'date', orderDirection = 'orderDirection') => {
-//   return `{
-//     poolDayDatas(
-//         first: 1000
-//         skip: ${skip}
-//         where: {pool: "${poolAddress}", date_gt: ${startTime}}
-//         orderBy: ${orderBy}
-//         orderDirection: ${orderDirection}
-//       ) {
-//         date
-//         volumeUSD
-//         tvlUSD
-//         __typename
-//       }
-//     }`
-// }
-
+/**
+ * ======================================
+ * Fragments
+ * ======================================
+ */
 export const poolTokenFieldsQuery = gql`
   fragment poolTokenFields on Token {
     id
     symbol
+    decimals
     name
     derivedETH
     volume
+    volumeUSD
+    feesUSD
     txCount
+    untrackedVolumeUSD
     totalValueLocked
+    totalValueLockedUSD
   }
 `;
 
@@ -43,6 +35,7 @@ export const poolFieldsQuery = gql`
     totalValueLockedToken0
     totalValueLockedToken1
     totalValueLockedUSD
+    feesUSD
     token0 {
       ...poolTokenFields
     }
@@ -53,6 +46,11 @@ export const poolFieldsQuery = gql`
   ${poolTokenFieldsQuery}
 `;
 
+/**
+ * ======================================
+ * Queries
+ * ======================================
+ */
 
 export const tokensQuery = gql`
   query tokensQuery(
@@ -61,6 +59,28 @@ export const tokensQuery = gql`
     $orderDirection: String! = "desc"
   ) {
     tokens(where:{id_in: $ids}, orderBy: $orderBy, orderDirection: $orderDirection) {
+      ...poolTokenFields
+    }
+  }
+  ${poolTokenFieldsQuery}
+`
+
+export const tokenQuery = gql`
+  query tokensQuery(
+    $id: String!
+  ) {
+    token(id:$id) {
+      ...poolTokenFields
+    }
+  }
+  ${poolTokenFieldsQuery}
+`
+
+export const tokenPastQuery = gql`
+  query tokenPastQuery(
+    $id: String!, $block: Block_height!
+  ) {
+    token(id:$id, block:$block) {
       ...poolTokenFields
     }
   }
@@ -103,3 +123,36 @@ export const poolsQuery = gql`
   }
 ${poolFieldsQuery}`
 
+
+export const poolDayDatasQuery = gql`
+  query poolDayDatasQuery($startTime: Int!, $skip: Int!, $pools: [Bytes!]) {
+    poolDayDatas(
+      first: 1000
+      skip: $skip
+      where: { pool_in: $pools, date_gt: $startTime }
+      orderBy: date
+      orderDirection: asc
+    ) {
+      date
+      pool {
+        id
+      }
+      volumeUSD
+      tvlUSD
+      txCount
+    }
+  }
+`
+
+export const poolTimeTravelQuery = gql`
+  query poolTimeTravelQuery(
+    $pools: [Bytes]!
+    $block: Block_height!
+    $orderBy: String! = "totalValueLockedUSD"
+    $orderDirection: String! = "desc"
+  ) {
+    pools(where:{id_in: $pools}, block: $block, orderBy: $orderBy, orderDirection: $orderDirection) {
+      ...poolFields
+    }
+  }
+${poolFieldsQuery}`
