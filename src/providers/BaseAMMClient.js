@@ -18,7 +18,7 @@ export class BaseAMMClient extends BaseClient {
     return []
   }
 
-  async getTokenPoolsWithWeight(contractAddress: string, pools: string[] = []): PoolAnalytics[] | null {
+  async getTokenPoolsData(contractAddress: string, pools: string[] = [], blockNumber = null): PoolAnalytics[] | null {
     pools = pools.length === 0
       ? await this.getTokenPools(contractAddress)
       : pools
@@ -27,10 +27,13 @@ export class BaseAMMClient extends BaseClient {
       return []
     }
 
-    const poolsData = await this.getPoolsData(pools.map(p => p.toLowerCase()))
+    pools = pools.map(p => p.toLowerCase())
+    const poolsData = blockNumber === null
+      ? await this.getPoolsPastData(pools, blockNumber)
+      : await this.getPoolsData(pools)
 
     if (poolsData.length === 0) {
-      return null
+      return []
     }
 
     return poolsData.map(pool => {
@@ -42,23 +45,27 @@ export class BaseAMMClient extends BaseClient {
   }
 
   /**
-   * fractional specific fnc
+   *
    * @param request
+   * @param blockNumber
    * @returns {Promise<{}|null>}
    */
-  async getTokensPoolsWithWeight(request: BulkAnalyticsRequest): BulkPoolsAnalytics | null {
+  async getBulkPoolsData(request: BulkAnalyticsRequest, blockNumber = null): BulkPoolsAnalytics | null {
     const vaultAddresses = Object.keys(request)
     const pools = vaultAddresses.flatMap(vaultAddress => request[vaultAddress]).map(p => p.toLowerCase())
-    const poolsData: PoolData[] | [] = await this.getPoolsData(pools)
+    const poolsData: PoolData[] | [] = blockNumber === null
+      ? await this.getPoolsPastData(pools, blockNumber)
+      : await this.getPoolsData(pools)
 
     if (poolsData.length === 0) {
-      return null
+      return []
     }
 
     return vaultAddresses.reduce((carry, vaultAddress) => {
       const poolAddresses = request[vaultAddress]
       carry[vaultAddress] = poolAddresses
         .map(address => poolsData.find(p => p.address === address))
+        .filter(x => x)
         .map(pool => {
           pool.weight = pool.token1.address.toLowerCase() === vaultAddress.toLowerCase()
             ? pool.totalValueLockedToken1

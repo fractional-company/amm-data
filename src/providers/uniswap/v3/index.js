@@ -30,12 +30,12 @@ export class UniswapV3Client extends BaseAMMClient {
     return fetchPoolsData(this.client, pools.map(p => p.toLowerCase()))
   }
 
-  async getPoolsPastData(pools: Array, blockNumber: number) {
+  getPoolsPastData(pools: Array, blockNumber: number) {
     return fetchPoolsPastData(this.client, pools.map(p => p.toLowerCase()), blockNumber)
   }
 
   // @todo implement skip
-  async getPoolsDayDatas(pools: Array, startTime: number) {
+  getPoolsDayDatas(pools: Array, startTime: number) {
     return fetchPoolsDayData(this.client, pools.map(p => p.toLowerCase()), startTime)
   }
 }

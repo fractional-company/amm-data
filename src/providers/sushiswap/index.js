@@ -4,6 +4,7 @@ import {fetchPastTokenData, fetchTokenData} from "./tokenData";
 import type {PoolData, TokenData} from "./../../interfaces";
 import {BaseAMMClient} from "../BaseAMMClient";
 import {fetchPoolsPastData} from "./poolData";
+import {getEthPrice, getPastEthPrice} from "./core";
 
 export class SushiswapClient extends BaseAMMClient {
   constructor(chainId: number | undefined = 1) {
@@ -27,7 +28,13 @@ export class SushiswapClient extends BaseAMMClient {
     return (token0Pools || []).concat(token1Pools || [])
   }
 
-  async getPastTokenData(contractAddress: string, blockNumber: number) {
+  async getEthPrice(blockNumber = null) {
+    return blockNumber !== null
+      ? getPastEthPrice(this.client, blockNumber)
+      : getEthPrice(this.client)
+  }
+
+  getPastTokenData(contractAddress: string, blockNumber: number) {
     return fetchPastTokenData(this.client, contractAddress.toLowerCase(), blockNumber)
   }
 
@@ -35,11 +42,11 @@ export class SushiswapClient extends BaseAMMClient {
     return fetchPoolsData(this.client, pools)
   }
 
-  async getPoolsPastData(pools: Array, blockNumber: number) {
+  getPoolsPastData(pools: Array, blockNumber: number) {
     return fetchPoolsPastData(this.client, pools.map(p => p.toLowerCase()), blockNumber)
   }
 
-  async getPoolsDayDatas(pools: Array, startTime: number) {
+  getPoolsDayDatas(pools: Array, startTime: number) {
     return fetchPoolsDayData(this.client, pools.map(p => p.toLowerCase()), startTime)
   }
 }

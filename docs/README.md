@@ -20,7 +20,7 @@
         -   [Parameters][16]
     -   [formatTokenName][17]
         -   [Parameters][18]
-    -   [getTokensPoolsWithWeight][19]
+    -   [getBulkPoolsData][19]
         -   [Parameters][20]
 
 ## fetchTokenPools
@@ -113,13 +113,12 @@ Returns **[Promise][23]&lt;([Array][24]&lt;any> | any)>**
 
 Returns **[string][21]** 
 
-## getTokensPoolsWithWeight
-
-fractional specific fnc
+## getBulkPoolsData
 
 ### Parameters
 
 -   `request` **BulkAnalyticsRequest** 
+-   `blockNumber`   (optional, default `null`)
 
 Returns **[Promise][23]&lt;({} | null)>** 
 
@@ -159,7 +158,7 @@ Returns **[Promise][23]&lt;({} | null)>**
 
 [18]: #parameters-6
 
-[19]: #gettokenspoolswithweight
+[19]: #getbulkpoolsdata
 
 [20]: #parameters-7
 
