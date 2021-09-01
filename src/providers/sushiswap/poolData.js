@@ -1,6 +1,6 @@
 import {GraphQLClient} from "graphql-request";
 import {
-  pairDayDatasQuery,
+  pairDayDatasQuery, pairsPastQuery,
   pairsQuery,
   poolsByToken0Query,
   poolsByToken1Query,
@@ -95,6 +95,25 @@ const mapPoolDayData = function (poolDayData): PoolDayData {
     volumeUSD: parseFloat(poolDayData.volumeUSD),
   }
 }
+
+export const fetchPoolsPastData = async (client: GraphQLClient,
+                                         poolsArr: string,
+                                         blockNumber: number) => {
+
+  try {
+    const {pairs} = await client.request(pairsPastQuery,
+      {
+        pairs: poolsArr,
+        block: {number: blockNumber},
+      });
+
+    return (pairs || []).map((pool) => mapPool(pool))
+  } catch (e) {
+    console.error(e)
+    return null
+  }
+}
+
 
 export const fetchPoolsDayData = async (client: GraphQLClient,
                                         poolsArr: string,

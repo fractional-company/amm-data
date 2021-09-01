@@ -101,6 +101,19 @@ export const pairsQuery = gql`
   }
 ${pairFieldsQuery}`
 
+export const pairsPastQuery = gql`
+  query pairsQuery(
+    $pairs: [Bytes]!
+    $block: Block_height!
+    $orderBy: String! = "txCount"
+    $orderDirection: String! = "desc"
+  ) {
+    pairs(where:{id_in: $pairs}, block: $block, orderBy: $orderBy, orderDirection: $orderDirection) {
+      ...pairFields
+    }
+  }
+${pairFieldsQuery}`
+
 export const poolsByToken0Query = gql`
   query pairsQuery(
     $tokenAddress: String!

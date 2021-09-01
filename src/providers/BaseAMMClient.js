@@ -14,6 +14,10 @@ export class BaseAMMClient extends BaseClient {
     return []
   }
 
+  async getPoolsPastData(pools: Array = [], blockNumber: number) {
+    return []
+  }
+
   async getTokenPoolsWithWeight(contractAddress: string, pools: string[] = []): PoolAnalytics[] | null {
     pools = pools.length === 0
       ? await this.getTokenPools(contractAddress)

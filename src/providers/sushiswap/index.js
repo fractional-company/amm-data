@@ -3,6 +3,7 @@ import {fetchPoolsData, fetchPoolsDayData, fetchTokenPools} from "./poolData";
 import {fetchPastTokenData, fetchTokenData} from "./tokenData";
 import type {PoolData, TokenData} from "./../../interfaces";
 import {BaseAMMClient} from "../BaseAMMClient";
+import {fetchPoolsPastData} from "./poolData";
 
 export class SushiswapClient extends BaseAMMClient {
   constructor(chainId: number | undefined = 1) {
@@ -32,6 +33,10 @@ export class SushiswapClient extends BaseAMMClient {
 
   getPoolsData(pools: string[] = []): PoolData[] | [] {
     return fetchPoolsData(this.client, pools)
+  }
+
+  async getPoolsPastData(pools: Array, blockNumber: number) {
+    return fetchPoolsPastData(this.client, pools.map(p => p.toLowerCase()), blockNumber)
   }
 
   async getPoolsDayDatas(pools: Array, startTime: number) {
