@@ -10,16 +10,16 @@
         -   [Parameters][6]
     -   [fetchPoolsDayData][7]
         -   [Parameters][8]
-    -   [poolTokenFieldsQuery][9]
--   [Fragments][10]
-    -   [tokensQuery][11]
--   [Queries][12]
-    -   [fetchTokenData][13]
+    -   [fetchTokenData][9]
+        -   [Parameters][10]
+    -   [fetchTokensData][11]
+        -   [Parameters][12]
+    -   [formatTokenName][13]
         -   [Parameters][14]
-    -   [fetchTokensData][15]
-        -   [Parameters][16]
-    -   [formatTokenName][17]
-        -   [Parameters][18]
+    -   [poolTokenFieldsQuery][15]
+-   [Fragments][16]
+    -   [tokensQuery][17]
+-   [Queries][18]
     -   [getBulkPoolsData][19]
         -   [Parameters][20]
 
@@ -69,18 +69,6 @@ Returns **[Promise][23]&lt;([Array][24]&lt;any> | [Array][24]&lt;PoolData>)>**
 
 Returns **[Promise][23]&lt;(null | any)>** 
 
-## poolTokenFieldsQuery
-
-======================================
-
-# Fragments
-
-## tokensQuery
-
-======================================
-
-# Queries
-
 ## fetchTokenData
 
 ### Parameters
@@ -113,6 +101,18 @@ Returns **[Promise][23]&lt;([Array][24]&lt;any> | any)>**
 
 Returns **[string][21]** 
 
+## poolTokenFieldsQuery
+
+======================================
+
+# Fragments
+
+## tokensQuery
+
+======================================
+
+# Queries
+
 ## getBulkPoolsData
 
 ### Parameters
@@ -138,25 +138,25 @@ Returns **[Promise][23]&lt;({} | null)>**
 
 [8]: #parameters-3
 
-[9]: #pooltokenfieldsquery
+[9]: #fetchtokendata
 
-[10]: #fragments
+[10]: #parameters-4
 
-[11]: #tokensquery
+[11]: #fetchtokensdata
 
-[12]: #queries
+[12]: #parameters-5
 
-[13]: #fetchtokendata
+[13]: #formattokenname
 
-[14]: #parameters-4
+[14]: #parameters-6
 
-[15]: #fetchtokensdata
+[15]: #pooltokenfieldsquery
 
-[16]: #parameters-5
+[16]: #fragments
 
-[17]: #formattokenname
+[17]: #tokensquery
 
-[18]: #parameters-6
+[18]: #queries
 
 [19]: #getbulkpoolsdata
 

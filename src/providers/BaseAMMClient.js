@@ -28,7 +28,7 @@ export class BaseAMMClient extends BaseClient {
     }
 
     pools = pools.map(p => p.toLowerCase())
-    const poolsData = blockNumber === null
+    const poolsData = blockNumber !== null
       ? await this.getPoolsPastData(pools, blockNumber)
       : await this.getPoolsData(pools)
 
@@ -53,7 +53,7 @@ export class BaseAMMClient extends BaseClient {
   async getBulkPoolsData(request: BulkAnalyticsRequest, blockNumber = null): BulkPoolsAnalytics | null {
     const vaultAddresses = Object.keys(request)
     const pools = vaultAddresses.flatMap(vaultAddress => request[vaultAddress]).map(p => p.toLowerCase())
-    const poolsData: PoolData[] | [] = blockNumber === null
+    const poolsData: PoolData[] | [] = blockNumber !== null
       ? await this.getPoolsPastData(pools, blockNumber)
       : await this.getPoolsData(pools)
 
