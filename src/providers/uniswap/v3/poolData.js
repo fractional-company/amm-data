@@ -73,6 +73,7 @@ const mapPool = function (pool): PoolData {
     feesUSD: parseFloat(pool.feesUSD),
     token0Price: parseFloat(pool.token0Price),
     token1Price: parseFloat(pool.token1Price),
+    totalValueLockedUSD: parseFloat(pool.totalValueLockedUSD),
     totalValueLockedToken0: parseFloat(pool.totalValueLockedToken0),
     totalValueLockedToken1: parseFloat(pool.totalValueLockedToken1)
   }
@@ -128,6 +129,7 @@ export const fetchPoolsPastData = async (client: GraphQLClient,
                                          blockNumber: number | undefined,
                                          orderBy: string | undefined = 'totalValueLockedUSD',
                                          orderDirection: string | undefined = 'desc'): PoolDayData[] => {
+  console.log("FETCH PASTED CALLED ", blockNumber)
   try {
     const {pools} = await client.request(poolTimeTravelQuery, {
       pools: poolsArr,

@@ -33,6 +33,7 @@ const mapPool = function (pool): PoolData {
     volumeUSD: parseFloat(pool.volumeUSD),
     token0Price: parseFloat(pool.token0Price),
     token1Price: parseFloat(pool.token1Price),
+    totalValueLockedUSD: parseFloat(pool.reserveUSD),
     totalValueLockedToken0: parseFloat(pool.reserve0),
     totalValueLockedToken1: parseFloat(pool.reserve1),
   }
