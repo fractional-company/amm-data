@@ -22,6 +22,8 @@
         -   [Parameters][18]
     -   [getBulkPoolsData][19]
         -   [Parameters][20]
+    -   [getBulkPoolsDayDatas][21]
+        -   [Parameters][22]
 
 ## fetchTokenPools
 
@@ -30,10 +32,10 @@ Fetch token pools
 ### Parameters
 
 -   `client` **GraphQLClient** 
--   `tokenAddress` **[string][21]** 
--   `tokenSide` **([string][21] \| [undefined][22])**  (optional, default `TOKEN_0`)
+-   `tokenAddress` **[string][23]** 
+-   `tokenSide` **([string][23] \| [undefined][24])**  (optional, default `TOKEN_0`)
 
-Returns **[Promise][23]&lt;(null | any)>** 
+Returns **[Promise][25]&lt;(null | any)>** 
 
 ## fetchPoolsData
 
@@ -41,33 +43,33 @@ Returns **[Promise][23]&lt;(null | any)>**
 
 -   `client` **GraphQLClient** 
 -   `poolsArr` **any**  (optional, default `[]`)
--   `orderBy` **([string][21] \| [undefined][22])**  (optional, default `'totalValueLockedUSD'`)
--   `orderDirection` **([string][21] \| [undefined][22])**  (optional, default `'desc'`)
+-   `orderBy` **([string][23] \| [undefined][24])**  (optional, default `'totalValueLockedUSD'`)
+-   `orderDirection` **([string][23] \| [undefined][24])**  (optional, default `'desc'`)
 
-Returns **[Promise][23]&lt;void>** 
+Returns **[Promise][25]&lt;void>** 
 
 ## fetchPoolsPastData
 
 ### Parameters
 
 -   `client` **GraphQLClient** 
--   `poolsArr` **[Array][24]&lt;[string][21]>**  (optional, default `[]`)
--   `blockNumber` **([number][25] \| [undefined][22])** 
--   `orderBy` **([string][21] \| [undefined][22])**  (optional, default `'totalValueLockedUSD'`)
--   `orderDirection` **([string][21] \| [undefined][22])**  (optional, default `'desc'`)
+-   `poolsArr` **[Array][26]&lt;[string][23]>**  (optional, default `[]`)
+-   `blockNumber` **([number][27] \| [undefined][24])** 
+-   `orderBy` **([string][23] \| [undefined][24])**  (optional, default `'totalValueLockedUSD'`)
+-   `orderDirection` **([string][23] \| [undefined][24])**  (optional, default `'desc'`)
 
-Returns **[Promise][23]&lt;([Array][24]&lt;any> | [Array][24]&lt;PoolData>)>** 
+Returns **[Promise][25]&lt;([Array][26]&lt;any> | [Array][26]&lt;PoolData>)>** 
 
 ## fetchPoolsDayData
 
 ### Parameters
 
 -   `client` **GraphQLClient** 
--   `poolsArr` **[Array][24]&lt;[string][21]>**  (optional, default `[]`)
--   `startTime` **[number][25]** 
--   `skip` **[number][25]**  (optional, default `0`)
+-   `poolsArr` **[Array][26]&lt;[string][23]>**  (optional, default `[]`)
+-   `startTime` **[number][27]** 
+-   `skip` **[number][27]**  (optional, default `0`)
 
-Returns **[Promise][23]&lt;(null | any)>** 
+Returns **[Promise][25]&lt;(null | any)>** 
 
 ## poolTokenFieldsQuery
 
@@ -86,32 +88,32 @@ Returns **[Promise][23]&lt;(null | any)>**
 ### Parameters
 
 -   `client` **GraphQLClient** 
--   `tokenAddress` **[string][21]** 
--   `blockNumber` **([number][25] | null)**  (optional, default `null`)
+-   `tokenAddress` **[string][23]** 
+-   `blockNumber` **([number][27] | null)**  (optional, default `null`)
 
-Returns **[Promise][23]&lt;(TokenData | null)>** 
+Returns **[Promise][25]&lt;(TokenData | null)>** 
 
 ## fetchTokensData
 
 ### Parameters
 
 -   `client` **GraphQLClient** 
--   `tokens` **[Array][24]&lt;[string][21]>**  (optional, default `[]`)
--   `blockNumber` **(null | [number][25] \| [undefined][22])**  (optional, default `null`)
--   `orderBy` **([string][21] \| [undefined][22])**  (optional, default `'totalValueLockedUSD'`)
--   `orderDirection` **([string][21] \| [undefined][22])**  (optional, default `'desc'`)
+-   `tokens` **[Array][26]&lt;[string][23]>**  (optional, default `[]`)
+-   `blockNumber` **(null | [number][27] \| [undefined][24])**  (optional, default `null`)
+-   `orderBy` **([string][23] \| [undefined][24])**  (optional, default `'totalValueLockedUSD'`)
+-   `orderDirection` **([string][23] \| [undefined][24])**  (optional, default `'desc'`)
 -   `block`  
 
-Returns **[Promise][23]&lt;([Array][24]&lt;any> | any)>** 
+Returns **[Promise][25]&lt;([Array][26]&lt;any> | any)>** 
 
 ## formatTokenName
 
 ### Parameters
 
--   `address` **[string][21]** 
--   `name` **[string][21]** 
+-   `address` **[string][23]** 
+-   `name` **[string][23]** 
 
-Returns **[string][21]** 
+Returns **[string][23]** 
 
 ## getBulkPoolsData
 
@@ -120,7 +122,16 @@ Returns **[string][21]**
 -   `request` **BulkAnalyticsRequest** 
 -   `blockNumber`   (optional, default `null`)
 
-Returns **[Promise][23]&lt;({} | null)>** 
+Returns **[Promise][25]&lt;({} | null)>** 
+
+## getBulkPoolsDayDatas
+
+### Parameters
+
+-   `request` **BulkAnalyticsRequest** 
+-   `timestamp`  
+
+Returns **[Promise][25]&lt;{}>** 
 
 [1]: #fetchtokenpools
 
@@ -162,12 +173,16 @@ Returns **[Promise][23]&lt;({} | null)>**
 
 [20]: #parameters-7
 
-[21]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+[21]: #getbulkpoolsdaydatas
 
-[22]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined
+[22]: #parameters-8
 
-[23]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise
+[23]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
 
-[24]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array
+[24]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined
 
-[25]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
+[25]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise
+
+[26]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array
+
+[27]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number

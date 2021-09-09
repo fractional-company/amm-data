@@ -129,7 +129,6 @@ export const fetchPoolsPastData = async (client: GraphQLClient,
                                          blockNumber: number | undefined,
                                          orderBy: string | undefined = 'totalValueLockedUSD',
                                          orderDirection: string | undefined = 'desc'): PoolDayData[] => {
-  console.log("FETCH PASTED CALLED ", blockNumber)
   try {
     const {pools} = await client.request(poolTimeTravelQuery, {
       pools: poolsArr,

@@ -76,4 +76,29 @@ export class BaseAMMClient extends BaseClient {
       return carry
     }, {})
   }
+
+  /**
+   *
+   * @param request
+   * @param timestamp
+   * @returns {Promise<{}>}
+   */
+  async getBulkPoolsDayDatas(request: BulkAnalyticsRequest, timestamp) {
+    const vaultAddresses = Object.keys(request)
+    const pools = vaultAddresses.flatMap(vaultAddress => request[vaultAddress]).map(p => p.toLowerCase())
+    const data = await this.getPoolsDayDatas(pools, timestamp)
+    if (data.length === 0) {
+      return {}
+    }
+    return vaultAddresses.reduce((carry, vaultAddress) => {
+      const poolAddresses = request[vaultAddress]
+      carry[vaultAddress] = poolAddresses
+        .map(address => data.filter(p => p.address === address))
+        .filter(x => x)
+
+      return carry
+    }, {})
+  }
 }
+
+
