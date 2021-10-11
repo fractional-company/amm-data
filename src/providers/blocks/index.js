@@ -1,6 +1,6 @@
 import {ENDPOINTS} from "./constants";
 import {BaseClient} from "../BaseClient";
-import {fetchOneDayBlock, fetchSevenDayBlock, fetchTwoDayBlock} from "./blocksData";
+import {fetchBlockTimestamps, fetchOneDayBlock, fetchSevenDayBlock, fetchTwoDayBlock} from "./blocksData";
 
 export class BlocksClient extends BaseClient {
   constructor(chainId: number | undefined = 1) {
@@ -19,5 +19,9 @@ export class BlocksClient extends BaseClient {
 
   async getSevenDayBlock() {
     return fetchSevenDayBlock(this.client)
+  }
+
+  async getBlockTimestamps(timestamps) {
+    return fetchBlockTimestamps(this.client, timestamps)
   }
 }

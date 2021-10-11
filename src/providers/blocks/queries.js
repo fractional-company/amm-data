@@ -56,3 +56,16 @@ export const latestBlockQuery = gql`
   }
   ${blockFieldsQuery}
 `;
+
+export const blocksTimestamps = gql`
+  query blocksTimestamps($blockNumbers: [Int!]) {
+    blocks(
+      where: { number_in: $blockNumbers },
+      orderBy: number,
+      orderDirection: desc
+    ) {
+      ...blockFields
+    }
+  }
+   ${blockFieldsQuery}
+`;

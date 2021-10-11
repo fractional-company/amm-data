@@ -1,5 +1,5 @@
 import {startOfMinute, subDays, subWeeks} from "date-fns";
-import {blockQuery} from "./queries";
+import {blockQuery, blocksTimestamps} from "./queries";
 
 export const fetchOneDayBlock = async (client) => {
   const date = startOfMinute(subDays(Date.now(), 1));
@@ -36,4 +36,10 @@ export const fetchSevenDayBlock = async (client) => {
   });
 
   return {number: Number(response?.blocks[0].number)};
+}
+
+export const fetchBlockTimestamps = async (client, blockNumbers) => {
+  return await client.request(blocksTimestamps, {
+    blockNumbers
+  });
 }
