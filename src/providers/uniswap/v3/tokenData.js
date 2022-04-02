@@ -49,7 +49,7 @@ export const fetchTokenData = async (client: GraphQLClient,
   try {
     const {token} = await client.request(blockNumber ? tokenPastQuery : tokenQuery, {
       id: tokenAddress,
-      block: blockNumber
+      block: {number: blockNumber}
     });
     return mapToken(token)
   } catch (e) {

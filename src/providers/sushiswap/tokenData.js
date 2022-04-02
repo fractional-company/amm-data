@@ -40,10 +40,14 @@ export const mapToken = function (token: TokenFields): TokenData {
  * @returns {Promise<TokenData|null>}
  */
 export const fetchTokenData = async (client: GraphQLClient,
-                                     tokenAddress: string): TokenData | null => {
+                                     tokenAddress: string,
+                                     blockNumber: number | undefined): TokenData | null => {
   try {
-    const {token} = await client.request(tokenQuery, {
-      id: tokenAddress
+    const {token} = await client.request(blockNumber ? tokenTimeTravelQuery : tokenQuery, {
+      id: tokenAddress,
+      block: {
+        number: blockNumber
+      }
     });
     return mapToken(token)
   } catch (e) {

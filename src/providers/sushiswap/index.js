@@ -17,8 +17,8 @@ export class SushiswapClient extends BaseAMMClient {
     return !!ENDPOINTS[this.chainId]
   }
 
-  getTokenData(contractAddress: string): TokenData {
-    return fetchTokenData(this.client, contractAddress.toLowerCase())
+  getTokenData(contractAddress: string, blockNumber: number | undefined): TokenData {
+    return fetchTokenData(this.client, contractAddress.toLowerCase(), blockNumber)
   }
 
   async getTokenPools(contractAddress: string) {
@@ -28,8 +28,8 @@ export class SushiswapClient extends BaseAMMClient {
     return (token0Pools || []).concat(token1Pools || [])
   }
 
-  async getEthPrice(blockNumber = null) {
-    return blockNumber !== null
+  getEthPrice(blockNumber: number | undefined) {
+    return blockNumber
       ? getPastEthPrice(this.client, blockNumber)
       : getEthPrice(this.client)
   }

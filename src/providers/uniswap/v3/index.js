@@ -3,6 +3,7 @@ import {fetchPoolsData, fetchPoolsDayData, fetchPoolsPastData, fetchTokenPools} 
 import {fetchTokenData} from "./tokenData";
 import type {PoolData, TokenData} from "../../../interfaces";
 import {BaseAMMClient} from "../../BaseAMMClient";
+import {getPastEthPrice, getEthPrice} from "./core";
 
 export class UniswapV3Client extends BaseAMMClient {
   constructor(chainId: number | undefined = 1) {
@@ -15,8 +16,8 @@ export class UniswapV3Client extends BaseAMMClient {
     return !!ENDPOINTS[this.chainId]
   }
 
-  getTokenData(contractAddress: string): TokenData {
-    return fetchTokenData(this.client, contractAddress.toLowerCase())
+  getTokenData(contractAddress: string, blockNumber: number | undefined): TokenData {
+    return fetchTokenData(this.client, contractAddress.toLowerCase(), blockNumber)
   }
 
   async getTokenPools(contractAddress: string) {
@@ -37,6 +38,12 @@ export class UniswapV3Client extends BaseAMMClient {
   // @todo implement skip
   getPoolsDayDatas(pools: Array, startTime: number) {
     return fetchPoolsDayData(this.client, pools.map(p => p.toLowerCase()), startTime)
+  }
+
+  getEthPrice(blockNumber: number | undefined) {
+    return blockNumber
+      ? getPastEthPrice(this.client, blockNumber)
+      : getEthPrice(this.client)
   }
 }
 

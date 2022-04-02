@@ -46,6 +46,13 @@ export const poolFieldsQuery = gql`
   ${poolTokenFieldsQuery}
 `;
 
+export const bundleFields = gql`
+  fragment bundleFields on Bundle {
+    id
+    ethPriceUSD
+  }
+`;
+
 /**
  * ======================================
  * Queries
@@ -156,3 +163,21 @@ export const poolTimeTravelQuery = gql`
     }
   }
 ${poolFieldsQuery}`
+
+export const ethPriceQuery = gql`
+  query ethPriceQuery($id: Int! = 1) {
+    bundles(id: $id) {
+      ...bundleFields
+    }
+  }
+  ${bundleFields}
+`;
+
+export const ethPriceTimeTravelQuery = gql`
+  query ethPriceTimeTravelQuery($id: Int! = 1, $block: Block_height!) {
+    bundles(id: $id, block: $block) {
+      ...bundleFields
+    }
+  }
+  ${bundleFields}
+`;
