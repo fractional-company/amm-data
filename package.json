@@ -1,6 +1,6 @@
 {
   "name": "@fractional-company/amm-data",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "description": "A utility to query vault data across amms",
   "license": "MIT",
   "repository": "fractional-company/amm-data",
