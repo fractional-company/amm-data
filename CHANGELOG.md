@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.20](https://github.com/fractional-company/amm-data/compare/v0.0.19...v0.0.20) (2022-04-02)
+
+
+### Features
+
+* add uniswap v2 ([9ec7f1c](https://github.com/fractional-company/amm-data/commit/9ec7f1c71ab8db251477674be65166163d29dcee))
+
 ### [0.0.19](https://github.com/fractional-company/amm-data/compare/v0.0.18...v0.0.19) (2022-04-02)
 
 
