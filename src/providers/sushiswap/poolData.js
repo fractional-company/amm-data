@@ -59,7 +59,9 @@ export const fetchPoolsData = async (client: GraphQLClient,
       orderDirection
     });
 
-    return (pairs || []).map((pool) => mapPool(pool))
+    return (pairs || [])
+      .filter(x => x)
+      .map((pool) => mapPool(pool))
   } catch (e) {
     console.error(e)
     return []
@@ -80,7 +82,9 @@ export const fetchTokenPools = async (client: GraphQLClient,
   try {
     const {pairs} = await client.request(tokenSide === TOKEN_0 ? poolsByToken0Query : poolsByToken1Query,
       {tokenAddress});
-    return (pairs || []).map((pool) => mapPool(pool))
+    return (pairs || [])
+      .filter(x => x)
+      .map((pool) => mapPool(pool))
   } catch (e) {
     console.error(e)
     return null
@@ -108,7 +112,9 @@ export const fetchPoolsPastData = async (client: GraphQLClient,
         block: {number: blockNumber},
       });
 
-    return (pairs || []).map((pool) => mapPool(pool))
+    return (pairs || [])
+      .filter(x => x)
+      .map((pool) => mapPool(pool))
   } catch (e) {
     console.error(e)
     return null

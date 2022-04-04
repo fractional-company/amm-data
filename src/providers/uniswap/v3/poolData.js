@@ -52,7 +52,9 @@ export const fetchTokenPools = async (client: GraphQLClient,
   try {
     const {pools} = await client.request(tokenSide === TOKEN_0 ? findPoolsByToken0Query : findPoolsByToken1Query,
       {tokenAddress});
-    return (pools || []).map((pool: PoolFields) => mapPool(pool))
+    return (pools || [])
+      .filter(x => x)
+      .map((pool: PoolFields) => mapPool(pool))
   } catch (e) {
     console.error(e)
     return null

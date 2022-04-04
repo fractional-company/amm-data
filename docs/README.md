@@ -10,20 +10,20 @@
         -   [Parameters][6]
     -   [fetchPoolsDayData][7]
         -   [Parameters][8]
-    -   [fetchTokenData][9]
-        -   [Parameters][10]
-    -   [fetchTokensData][11]
-        -   [Parameters][12]
-    -   [formatTokenName][13]
+    -   [poolTokenFieldsQuery][9]
+-   [Fragments][10]
+    -   [tokensQuery][11]
+-   [Queries][12]
+    -   [fetchTokenData][13]
         -   [Parameters][14]
-    -   [getBulkPoolsData][15]
+    -   [fetchTokensData][15]
         -   [Parameters][16]
-    -   [getBulkPoolsDayDatas][17]
+    -   [formatTokenName][17]
         -   [Parameters][18]
-    -   [poolTokenFieldsQuery][19]
--   [Fragments][20]
-    -   [tokensQuery][21]
--   [Queries][22]
+    -   [getBulkPoolsData][19]
+        -   [Parameters][20]
+    -   [getBulkPoolsDayDatas][21]
+        -   [Parameters][22]
 
 ## fetchTokenPools
 
@@ -70,6 +70,18 @@ Returns **[Promise][25]&lt;([Array][26]&lt;any> | [Array][26]&lt;PoolData>)>**
 -   `skip` **[number][27]**  (optional, default `0`)
 
 Returns **[Promise][25]&lt;(null | any)>** 
+
+## poolTokenFieldsQuery
+
+======================================
+
+# Fragments
+
+## tokensQuery
+
+======================================
+
+# Queries
 
 ## fetchTokenData
 
@@ -121,18 +133,6 @@ Returns **[Promise][25]&lt;({} | null)>**
 
 Returns **[Promise][25]&lt;{}>** 
 
-## poolTokenFieldsQuery
-
-======================================
-
-# Fragments
-
-## tokensQuery
-
-======================================
-
-# Queries
-
 [1]: #fetchtokenpools
 
 [2]: #parameters
@@ -149,33 +149,33 @@ Returns **[Promise][25]&lt;{}>**
 
 [8]: #parameters-3
 
-[9]: #fetchtokendata
+[9]: #pooltokenfieldsquery
 
-[10]: #parameters-4
+[10]: #fragments
 
-[11]: #fetchtokensdata
+[11]: #tokensquery
 
-[12]: #parameters-5
+[12]: #queries
 
-[13]: #formattokenname
+[13]: #fetchtokendata
 
-[14]: #parameters-6
+[14]: #parameters-4
 
-[15]: #getbulkpoolsdata
+[15]: #fetchtokensdata
 
-[16]: #parameters-7
+[16]: #parameters-5
 
-[17]: #getbulkpoolsdaydatas
+[17]: #formattokenname
 
-[18]: #parameters-8
+[18]: #parameters-6
 
-[19]: #pooltokenfieldsquery
+[19]: #getbulkpoolsdata
 
-[20]: #fragments
+[20]: #parameters-7
 
-[21]: #tokensquery
+[21]: #getbulkpoolsdaydatas
 
-[22]: #queries
+[22]: #parameters-8
 
 [23]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
 
