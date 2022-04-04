@@ -49,7 +49,7 @@ export const fetchTokenData = async (client: GraphQLClient,
         number: blockNumber
       }
     });
-    return mapToken(token)
+    return token ? mapToken(token) : null
   } catch (e) {
     console.error(e)
     return null
@@ -73,7 +73,7 @@ export const fetchPastTokenData = async (client: GraphQLClient,
         number: blockNumber
       },
     });
-    return mapToken(token)
+    return token ? mapToken(token) : null
   } catch (e) {
     console.error(e)
     return null
