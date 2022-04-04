@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.21](https://github.com/fractional-company/amm-data/compare/v0.0.20...v0.0.21) (2022-04-04)
+
+
+### Bug Fixes
+
+* filter our empty results ([5ffeeae](https://github.com/fractional-company/amm-data/commit/5ffeeae25c124da0a6be6af5fde49297680c5e26))
+
 ### [0.0.20](https://github.com/fractional-company/amm-data/compare/v0.0.19...v0.0.20) (2022-04-02)
 
 
