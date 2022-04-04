@@ -51,7 +51,7 @@ export const fetchTokenData = async (client: GraphQLClient,
       id: tokenAddress,
       block: {number: blockNumber}
     });
-    return mapToken(token)
+    return token ? mapToken(token) : null
   } catch (e) {
     console.error(e)
     return null
@@ -83,7 +83,7 @@ export const fetchTokensData = async (client: GraphQLClient,
     if (tokens.length === 0) {
       return []
     }
-    return tokens.map(token => mapToken(token))
+    return tokens.filter(x => x).map(token => mapToken(token))
   } catch (e) {
     console.error(e)
     return []
