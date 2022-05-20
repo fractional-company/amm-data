@@ -69,3 +69,17 @@ export const blocksTimestamps = gql`
   }
    ${blockFieldsQuery}
 `;
+
+export const blocksTimestamp = gql`
+  query blocksTimestamps($blockNumber: Int!) {
+    blocks(
+      first: 1,
+      where: { timestamp_lte: $blockNumber },
+      orderBy: timestamp,
+      orderDirection: desc
+    ) {
+      ...blockFields
+    }
+  }
+   ${blockFieldsQuery}
+`;
