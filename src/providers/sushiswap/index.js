@@ -1,7 +1,7 @@
 import {TOKEN_1, ENDPOINTS} from "./constants";
 import {fetchPoolsData, fetchPoolsDayData, fetchTokenPools} from "./poolData";
 import {fetchPastTokenData, fetchTokenData} from "./tokenData";
-import type {PoolData, TokenData} from "./../../interfaces";
+import type {PoolData, TokenData} from "../../interfaces";
 import {BaseAMMClient} from "../BaseAMMClient";
 import {fetchPoolsPastData} from "./poolData";
 import {getEthPrice, getPastEthPrice} from "./core";
